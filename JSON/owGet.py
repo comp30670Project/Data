@@ -3,7 +3,7 @@ import urllib.request
 
 # api
 apiKey = ""
-with open("owAPI.txt", "r") as f: make a file that contains your api key
+with open("owAPI.txt", "r") as f: #make a file that contains your api key
 	apiKey = f.readline()
 owKey = "&appid=" + apiKey
 
