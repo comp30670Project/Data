@@ -1,3 +1,15 @@
+def modify_status(theStatus):
+	if theStatus == "OPEN":
+		return 1
+	else:
+		return 0
+
+def modify_boolean(theBoolean):
+	if theBoolean == False:
+		return 0
+	else:
+		return 1
+
 def modify_db_last_update(theInt):
 
 	# imports
@@ -51,6 +63,13 @@ def combineData(dbAPI, owAPI):
 
 		# modify last update
 		d['last_update'] = modify_db_last_update(d['last_update'])
+
+		# modify booleans to ints for SQL
+		d['banking'] = modify_boolean(d['banking'])
+		d['bonus'] = modify_boolean(d['bonus'])
+
+		# modify status into ints for SQL
+		d['status'] = modify_status(d['status'])
 
 		# OW 60 calls per minute accomodation
 		if count == 60:

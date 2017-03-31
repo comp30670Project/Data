@@ -42,7 +42,6 @@ def owData(fileName, lat, lon):
 	ow_wind = dictData['wind'] # dict object
 	ow_sys = dictData['sys'] # dict object
 
-
 	ow = {}
 	ow['Weather'] = ow_weather['description']
 	ow['Temp'] = ow_main['temp']
