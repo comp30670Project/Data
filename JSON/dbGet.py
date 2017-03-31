@@ -16,7 +16,7 @@ def dbKey(fileName):
 def dbData(fileName):
 
 	# input: filename.txt; the file name of the file containing the API key
-	# output: Python dictionary of the Dublin Bikes contract
+	# output: Python list of dictionary entries of the Dublin Bikes contract
 
 	# imports
 	import json
@@ -29,7 +29,9 @@ def dbData(fileName):
 	# get data
 	with urllib.request.urlopen(url) as response:
 		stringData = response.read()
-		dictData = json.loads(stringData)
-	
+		listData = json.loads(stringData)
+
 	# output
-	return dictData
+	return listData
+
+# print(dbData("dbAPI.txt"))

@@ -34,5 +34,28 @@ def owData(fileName, lat, lon):
 	with urllib.request.urlopen(url) as response:
 		stringData = response.read()
 		dictData = json.loads(stringData)
+
+	# parse data
+	# collect data from ow
+	ow_weather = dictData['weather'][0] # dictionary object
+	ow_main = dictData['main'] # dict object
+	ow_wind = dictData['wind'] # dict object
+	ow_sys = dictData['sys'] # dict object
+
+
+	ow = {}
+	ow['Weather'] = ow_weather['description']
+	ow['Temp'] = ow_main['temp']
+	ow['TempMin'] = ow_main['temp_min']
+	ow['TempMax'] = ow_main['temp_max']
+	ow['Pressure'] = ow_main['pressure']
+	ow['WindSpeed'] = ow_wind['speed']
+	ow['WindDegree'] = ow_wind['deg']
+	ow['SunRise'] = ow_sys['sunrise']
+	ow['SunSet'] = ow_sys['sunset']
 	
-	return dictData
+	return ow
+
+# myThing = owData("owAPI.txt", 1, 5)
+# for d in myThing:
+# 	print(d, myThing[d])

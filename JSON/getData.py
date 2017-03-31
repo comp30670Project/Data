@@ -1,3 +1,32 @@
+def modify_db_last_update(theInt):
+
+	# imports
+	from time import gmtime, strftime
+
+	# convert from miliseconds to seconds
+	theInt = int(theInt / 1000)
+
+	# convert to human readable time
+	theInt = gmtime(theInt)
+
+	# return
+	return strftime("%Y %b %d %H:%M:%S", theInt)
+
+# print(modify_db_last_update({'last_update':1490279920000}))
+
+
+def modify_ow_times(theInt):
+
+	# imports
+	from time import gmtime, strftime
+
+	# convert to human readable time
+	theInt = gmtime(theInt)
+
+	# return
+	return strftime("%Y %b %d %H:%M:%S", theInt)
+
+
 def combineData(dbAPI, owAPI):
 
 	# imports
@@ -13,6 +42,16 @@ def combineData(dbAPI, owAPI):
 	start = time.time()
 	for d in data:
 
+		# modify lat and lon
+		lat = d['position']['lat']
+		lon = d['position']['lng']
+		del d['position']
+		d['lat'] = lat
+		d['lon'] = lon
+
+		# modify last update
+		d['last_update'] = modify_db_last_update(d['last_update'])
+
 		# OW 60 calls per minute accomodation
 		if count == 60:
 			wait = max(0, 60 - (time.time() - start))
@@ -22,15 +61,19 @@ def combineData(dbAPI, owAPI):
 
 		# count
 		count += 1
-
-		# latitude and longitude
-		lat = d['position']['lat']
-		lon = d['position']['lng']
 	
 		# Open Weather Data
 		weather = ow.owData(owAPI, lat, lon)
+		weather['SunRise'] = modify_ow_times(weather['SunRise'])
+		weather['SunSet'] = modify_ow_times(weather['SunSet'])
 
 		# combine the data
-		d['ow'] = weather
+		for item in weather:
+			d[item] = weather[item]
 
-combineData("dbAPI.txt", "owAPI.txt")
+	# output
+	return data
+
+thisData = combineData("dbAPI.txt", "owAPI.txt")
+for t in thisData:
+	print(t)
