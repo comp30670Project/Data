@@ -23,12 +23,37 @@ DB_NAME = 'dbProject'
 TABLES = {}
 TABLES['dbProject'] = ("CREATE TABLE `dbProject` (""`number` int(11) NOT NULL, ""PRIMARY KEY (`number`)"") ")
 
+TABLES['dbProject'] = (
+    "  CREATE TABLE `dbProject` ("
+    "  `number` int(11) NOT NULL,"
+    "	`name` varchar(4)"
+    "	`address` varchar(64)"
+    " `banking` tinyint(1)"
+
+
+    "  `emp_no` int(11) NOT NULL,"
+    "  `from_date` date NOT NULL,"
+    "  `to_date` date NOT NULL,"
+    "  PRIMARY KEY (`emp_no`,`dept_no`),"
+    "  KEY `emp_no` (`emp_no`),"
+    "  KEY `dept_no` (`dept_no`),"
+    "  CONSTRAINT `dept_manager_ibfk_1` FOREIGN KEY (`emp_no`) "
+    "     REFERENCES `employees` (`emp_no`) ON DELETE CASCADE,"
+    "  CONSTRAINT `dept_manager_ibfk_2` FOREIGN KEY (`dept_no`) "
+    "     REFERENCES `departments` (`dept_no`) ON DELETE CASCADE"
+    ") ENGINE=InnoDB")
+
 # use DB_NAME
 cnx.database = DB_NAME
 
 # create the table
 for key, value in TABLES.items():
-	cursor.execute(value)
+
+	try:
+		cursor.execute(value)
+
+	except mysql.connector.Error as err:
+		pass
 
 # close the cursor and connection
 cursor.close()
