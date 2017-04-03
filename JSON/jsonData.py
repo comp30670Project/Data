@@ -47,7 +47,7 @@ class ProjectData():
 		# return
 		return DB
 
-# Data Tests
-myData = ProjectData("apiDB.txt", "apiOW.txt").getData()
-for item in myData:
-	print(item)
+# # Data Tests
+# myData = ProjectData("apiDB.txt", "apiOW.txt").getData()
+# for item in myData:
+# 	print(item)
